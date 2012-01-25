@@ -1,4 +1,4 @@
-var io = require('socket.io').listen(80);
+var io = require('socket.io').listen(14006);
 
 var chat = io
   .of('/chat')
