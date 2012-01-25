@@ -35,6 +35,7 @@ var theCompany = io
   .on('connection', function (socket) {
 	// A new? crewmember is asking the foreman for a supervisor, so let's generate an ID and get a namespace (supervisor) together
 	// We'll ignore this socket in the future (safe?) and tell the crewmember to report to a supervisor (uri)
+	
     socket.emit('a message', {
         that: 'only'
       , '/chat': 'will get'
