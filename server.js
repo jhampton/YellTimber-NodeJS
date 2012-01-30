@@ -80,6 +80,8 @@ var theCompany = io
 			// Add a socket.io listener for each crewmember's supervisor
 			// TODO: On Socket.disconnect, remove this item from the foremen object
 			console.log('New cremember reporting to: /' + supervisorNamespace);
+			if (!foremen[APIKEY])
+				foremen[APIKEY] = {};
 			foremen[APIKEY][thisSupervisor] = io.of('/' + supervisorNamespace)
 			.on('connection',function(socket) {
 				// Tell the client to start sending reports here
