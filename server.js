@@ -87,7 +87,7 @@ var theCompany = io
 				// Tell the client to start sending reports here
 				socket.emit('GetToWork!');
 			})
-			.on('log',function(socket, data) {
+			.on('log',function(data) {
 				// Send a message to everyone listening on this namespace EXCEPT the socket
 				console.log('Emitting data from crewmember');
 				console.log('data');
