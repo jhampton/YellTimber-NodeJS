@@ -48,7 +48,7 @@ function base_encode(num, alphabet) {
     var encoded = '';
     while (num >= base_count) {
         var div = num/base_count;
-        var mod = (num-(base_count*intval(div)));
+        var mod = (num-(base_count*Math.floor(div)));
         encoded = alphabet.charAt(mod) + encoded;
         num = Math.floor(div);
     }
