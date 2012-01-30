@@ -89,6 +89,8 @@ var theCompany = io
 			})
 			.on('log',function(socket, data) {
 				// Send a message to everyone listening on this namespace EXCEPT the socket
+				console.log('Emitting data from crewmember');
+				console.log('data');
 				socket.broadcast.emit(data);
 				// TODO: Store messages for this Foreman for later analysis
 			});
