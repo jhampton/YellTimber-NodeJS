@@ -86,15 +86,14 @@ var theCompany = io
 			.on('connection',function(socket) {
 				// Tell the client to start sending reports here
 				socket.emit('GetToWork!');
-			})
-			.on('log',function(data) {
-				// Send a message to everyone listening on this namespace EXCEPT the socket
-				console.log('Emitting data from crewmember');
-				console.log(data);
-				//socket.broadcast.emit(data);
-				// TODO: Store messages for this Foreman for later analysis
-			});
-			
+				socket.on('log',function(data) {
+					// Send a message to everyone listening on this namespace EXCEPT the socket
+					console.log('Emitting data from crewmember');
+					console.log(data);
+					socket.broadcast.emit(data);
+					// TODO: Store messages for this Foreman for later analysis
+				});
+			})	
 			respondToCrewmember(supervisorNamespace);
 		}
 	});
