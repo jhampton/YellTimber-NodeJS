@@ -50,7 +50,7 @@ function base_encode(num, alphabet) {
         var div = num/base_count;
         var mod = (num-(base_count*intval(div)));
         encoded = alphabet.charAt(mod) + encoded;
-        num = intval(div);
+        num = Math.floor(div);
     }
     if (num) encoded = alphabet.charAt(num) + encoded;
     return encoded;
