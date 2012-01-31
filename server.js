@@ -71,7 +71,7 @@ function setupForeman(foreman) {
 	
 	// Generate new supervisor for this foreman
 	supervisor = getSupervisor(foreman);
-	var namespaceURL = '/' + foreman + '/' + supervisor;
+	var namespaceURL = foreman + '/' + supervisor;
 	
 	console.log('Setting up namespace at ' + namespaceURL);
 	
@@ -111,7 +111,7 @@ var theCompany = io
 			supervisorNamespace = setupForeman(APIKEY);
 			// Add a socket.io listener for each crewmember's supervisor
 			// TODO: On Socket.disconnect, remove this item from the foremen object
-			console.log('New cremember reporting to:' + supervisorNamespace);
+			console.log('New cremember reporting to: /' + supervisorNamespace);
 				
 			respondToCrewmember(supervisorNamespace);
 		}
