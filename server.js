@@ -75,11 +75,12 @@ function setupForeman(foreman) {
 	
 	console.log('Setting up namespace at ' + namespaceURL);
 	
-	foremen[foreman][supervisor] = io.of('/' + foreman + '/' + supervisor)
+	foremen[foreman][supervisor] = io.of(namespaceURL)
 	.on('connection',function(socket) {
 		// Tell the client to start sending reports here
 		socket.emit('GetToWork!');
-		console.log('someone connected to ' + supervisor);
+		console.log('someone connected to socket:');
+		console.log(socket);
 		socket.on('log',function(data) {
 			// Send a message to everyone listening on this namespace EXCEPT the socket
 			console.log('Emitting data from crewmember');
