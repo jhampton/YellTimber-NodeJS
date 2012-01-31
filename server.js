@@ -75,7 +75,7 @@ function setupForeman(foreman) {
 	
 	console.log('Setting up namespace at ' + namespaceURL);
 	
-	foremen[foreman][supervisor] = io.of(namespaceURL)
+	foremen[foreman][supervisor] = io.of('/' + namespaceURL)
 	.on('connection',function(socket) {
 		// Tell the client to start sending reports here
 		socket.emit('GetToWork!');
