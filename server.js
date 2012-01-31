@@ -64,12 +64,16 @@ var apikeys = {'L6GYiEn6NPk3qzvZ': {
 	}
 };
 
-function setupForeman(foreman, supervisor) {
+function setupForeman(foreman) {
 	console.log('Setting up new foreman/supervisor at ' + foreman + '/' + supervisor)
 	if (!foremen[foreman])
 		foremen[foreman] = {};
 	
 	var namespaceURL = '/' + foreman + '/' + supervisor;
+	
+	// Generate new supervisor for this foreman
+	supervisor = getSupervisor(foreman);
+	
 	foremen[foreman][supervisor] = io.of('/' + foreman + '/' + supervisor)
 	.on('connection',function(socket) {
 		// Tell the client to start sending reports here
@@ -99,7 +103,7 @@ var theCompany = io
 		// Make sure the APIKEY is valid, create a new supervisor (session), start listening, and return it.
 		if (apikeys[APIKEY] && apikeys[APIKEY].allowed) {
 			var thisSupervisor = getSupervisor(APIKEY);
-			supervisorNamespace = setupForeman(APIKEY, supervisor);
+			supervisorNamespace = setupForeman(APIKEY);
 			// Add a socket.io listener for each crewmember's supervisor
 			// TODO: On Socket.disconnect, remove this item from the foremen object
 			console.log('New cremember reporting to: /' + supervisorNamespace);
