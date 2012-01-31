@@ -90,6 +90,9 @@ function setupForeman(foreman) {
 		});
 	});
 	
+	console.log('Foreman: ');
+	console.log(foremen[foreman][supervisor]);
+	
 	return namespaceURL;
 }
 
@@ -108,7 +111,7 @@ var theCompany = io
 			supervisorNamespace = setupForeman(APIKEY);
 			// Add a socket.io listener for each crewmember's supervisor
 			// TODO: On Socket.disconnect, remove this item from the foremen object
-			console.log('New cremember reporting to: /' + supervisorNamespace);
+			console.log('New cremember reporting to:' + supervisorNamespace);
 				
 			respondToCrewmember(supervisorNamespace);
 		}
