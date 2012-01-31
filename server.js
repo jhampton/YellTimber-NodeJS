@@ -65,14 +65,15 @@ var apikeys = {'L6GYiEn6NPk3qzvZ': {
 };
 
 function setupForeman(foreman) {
-	console.log('Setting up new foreman/supervisor at ' + foreman + '/' + supervisor)
+	console.log('Setting up new foreman/supervisor for ' + foreman );
 	if (!foremen[foreman])
 		foremen[foreman] = {};
 	
-	var namespaceURL = '/' + foreman + '/' + supervisor;
-	
 	// Generate new supervisor for this foreman
 	supervisor = getSupervisor(foreman);
+	var namespaceURL = '/' + foreman + '/' + supervisor;
+	
+	console.log('Setting up namespace at ' + namespaceURL);
 	
 	foremen[foreman][supervisor] = io.of('/' + foreman + '/' + supervisor)
 	.on('connection',function(socket) {
