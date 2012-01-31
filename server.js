@@ -64,6 +64,25 @@ var apikeys = {'L6GYiEn6NPk3qzvZ': {
 	}
 };
 
+function setupForeman(foreman, supervisor) {
+	console.log('Setting up new foreman/supervisor at ' + foreman + '/' + supervisor)
+	if (!foremen[foreman])
+		foremen[foreman] = {};
+	foremen[foreman][supervisor] = io.of('/' + foreman + '/' + supervisor)
+	.on('connection',function(socket) {
+		// Tell the client to start sending reports here
+		socket.emit('GetToWork!');
+		console.log('someone connected to ' + supervisor);
+		socket.on('log',function(data) {
+			// Send a message to everyone listening on this namespace EXCEPT the socket
+			console.log('Emitting data from crewmember');
+			console.log(data);
+			socket.broadcast.send(data);
+			// TODO: Store messages for this Foreman for later analysis
+		});
+	});
+}
+
 var theCompany = io
   .of('/foreman')
   .on('connection', function (socket) {
@@ -76,25 +95,11 @@ var theCompany = io
 		// Make sure the APIKEY is valid, create a new supervisor (session), start listening, and return it.
 		if (apikeys[APIKEY] && apikeys[APIKEY].allowed) {
 			var thisSupervisor = getSupervisor(APIKEY);
-			var supervisorNamespace = APIKEY + '/' + thisSupervisor;
+			setupForeman(APIKEY, supervisor);
 			// Add a socket.io listener for each crewmember's supervisor
 			// TODO: On Socket.disconnect, remove this item from the foremen object
 			console.log('New cremember reporting to: /' + supervisorNamespace);
-			if (!foremen[APIKEY])
-				foremen[APIKEY] = {};
-			foremen[APIKEY][thisSupervisor] = io.of('/' + supervisorNamespace)
-			.on('connection',function(socket) {
-				// Tell the client to start sending reports here
-				socket.emit('GetToWork!');
-				console.log('someone connected to ' + thisSupervisor);
-				socket.on('log',function(data) {
-					// Send a message to everyone listening on this namespace EXCEPT the socket
-					console.log('Emitting data from crewmember');
-					console.log(data);
-					socket.broadcast.emit(data);
-					// TODO: Store messages for this Foreman for later analysis
-				});
-			})	
+				
 			respondToCrewmember(supervisorNamespace);
 		}
 	});
