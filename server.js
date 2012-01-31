@@ -85,7 +85,7 @@ function setupForeman(foreman) {
 			// Send a message to everyone listening on this namespace EXCEPT the socket
 			console.log('Emitting data from crewmember');
 			console.log(data);
-			foremen[foreman][supervisor].emit(data);
+			foremen[foreman][supervisor].emit('log',data);
 			// TODO: Store messages for this Foreman for later analysis
 		});
 	});
