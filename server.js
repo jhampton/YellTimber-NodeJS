@@ -68,6 +68,8 @@ function setupForeman(foreman, supervisor) {
 	console.log('Setting up new foreman/supervisor at ' + foreman + '/' + supervisor)
 	if (!foremen[foreman])
 		foremen[foreman] = {};
+	
+	var namespaceURL = '/' + foreman + '/' + supervisor;
 	foremen[foreman][supervisor] = io.of('/' + foreman + '/' + supervisor)
 	.on('connection',function(socket) {
 		// Tell the client to start sending reports here
@@ -81,6 +83,8 @@ function setupForeman(foreman, supervisor) {
 			// TODO: Store messages for this Foreman for later analysis
 		});
 	});
+	
+	return namespaceURL;
 }
 
 var theCompany = io
@@ -95,7 +99,7 @@ var theCompany = io
 		// Make sure the APIKEY is valid, create a new supervisor (session), start listening, and return it.
 		if (apikeys[APIKEY] && apikeys[APIKEY].allowed) {
 			var thisSupervisor = getSupervisor(APIKEY);
-			setupForeman(APIKEY, supervisor);
+			supervisorNamespace = setupForeman(APIKEY, supervisor);
 			// Add a socket.io listener for each crewmember's supervisor
 			// TODO: On Socket.disconnect, remove this item from the foremen object
 			console.log('New cremember reporting to: /' + supervisorNamespace);
